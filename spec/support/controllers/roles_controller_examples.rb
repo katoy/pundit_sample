@@ -5,7 +5,7 @@ shared_examples "Role indexができる" do
   before { get :index }
   subject { assigns(:roles) }
 
-  it { should include only_view_role }
+  it { is_expected.to include only_view_role }
   it_behaves_like 'http code', 200
 end
 
@@ -22,7 +22,7 @@ shared_examples "Role showができる" do
   before { get :show, id: only_view_role.to_param }
   subject { assigns(:role) }
 
-  it { should eq only_view_role }
+  it { is_expected.to eq only_view_role }
   it_behaves_like 'http code', 200
 end
 
@@ -39,7 +39,7 @@ shared_examples "Role newができる" do
   before { get :new }
   subject { assigns(:role) }
 
-  it { should be_a_new(Role) }
+  it { is_expected.to be_a_new(Role) }
   it_behaves_like 'http code', 200
 end
 
@@ -56,7 +56,7 @@ shared_examples "Role editができる" do
   before { get :edit, id: only_view_role.to_param }
   subject { assigns(:role) }
 
-  it { should eq only_view_role }
+  it { is_expected.to eq only_view_role }
   it_behaves_like 'http code', 200
 end
 
@@ -78,14 +78,14 @@ shared_examples "Role createができる" do
     context "creates a new Role" do
       subject { Role.count }
 
-      it { should eq 2 }
+      it { is_expected.to eq 2 }
     end
 
     context "assigns a newly created role as @role" do
       subject { assigns(:role) }
 
-      it { should be_a Role }
-      it { should be_persisted }
+      it { is_expected.to be_a Role }
+      it { is_expected.to be_persisted }
     end
 
     context "inside @role" do
@@ -94,13 +94,13 @@ shared_examples "Role createができる" do
       context 'ability' do
         subject { assigns(:role).ability }
 
-        it { should include foo_index.domain }
+        it { is_expected.to include foo_index.domain }
 
         context 'inside ability' do
           subject { assigns(:role).ability[foo_index.domain] }
 
           it do
-            should include(
+            is_expected.to include(
               { foo_index.ability => foo_index.id },
               { foo_show.ability => foo_show.id },
               { foo_create.ability => foo_create.id }
@@ -113,13 +113,13 @@ shared_examples "Role createができる" do
     context "redirects to the created role" do
       subject { response }
 
-      it { should redirect_to Role.last }
+      it { is_expected.to redirect_to Role.last }
     end
   end
 
   context "with invalid params" do
     before do
-      Role.any_instance.stub(:save).and_return(false)
+      allow_any_instance_of(Role).to receive(:save).and_return(false)
       post :create, { role: { "name" => "invalid value" } }
     end
 
@@ -128,13 +128,13 @@ shared_examples "Role createができる" do
     context "assigns a newly created but unsaved role as @role" do
       subject { assigns(:role) }
 
-      it { should be_a_new Role }
+      it { is_expected.to be_a_new Role }
     end
 
     context "re-renders the 'new' template" do
       subject { response }
 
-      it { should render_template("new") }
+      it { is_expected.to render_template("new") }
     end
   end
 end
@@ -161,25 +161,25 @@ shared_examples "Role updateができる" do
       context "updates the requested role" do
         subject { only_view_role.name }
 
-        it { should eq all_update["name"] }
+        it { is_expected.to eq all_update["name"] }
 
         context "update ability id" do
           subject { only_view_role.ability_id_to_a }
 
-          it { should eq all_update["roles_abilities_attributes"].map {|i| i['ability_id'].to_i } }
+          it { is_expected.to eq all_update["roles_abilities_attributes"].map {|i| i['ability_id'].to_i } }
         end
       end
 
       context "assigns the requested role as @role" do
         subject { assigns(:role) }
 
-        it { should eq only_view_role }
+        it { is_expected.to eq only_view_role }
       end
 
       context "redirects to the role" do
         subject { response }
 
-        it { should redirect_to only_view_role }
+        it { is_expected.to redirect_to only_view_role }
       end
     end
 
@@ -194,25 +194,25 @@ shared_examples "Role updateができる" do
       context "updates the requested role" do
         subject { only_view_role.name }
 
-        it { should eq some_update["name"] }
+        it { is_expected.to eq some_update["name"] }
 
         context "update ability id" do
           subject { only_view_role.ability_id_to_a }
 
-          it { should eq some_update["roles_abilities_attributes"].map {|i| i['ability_id'].to_i } }
+          it { is_expected.to eq some_update["roles_abilities_attributes"].map {|i| i['ability_id'].to_i } }
         end
       end
 
       context "assigns the requested role as @role" do
         subject { assigns(:role) }
 
-        it { should eq only_view_role }
+        it { is_expected.to eq only_view_role }
       end
 
       context "redirects to the role" do
         subject { response }
 
-        it { should redirect_to only_view_role }
+        it { is_expected.to redirect_to only_view_role }
       end
     end
 
@@ -227,25 +227,25 @@ shared_examples "Role updateができる" do
       context "updates the requested role" do
         subject { only_view_role.name }
 
-        it { should eq "参照権限" }
+        it { is_expected.to eq "参照権限" }
 
         context "update ability id" do
           subject { only_view_role.ability_id_to_a }
 
-          it { should eq not_update["roles_abilities_attributes"].map {|i| i['ability_id'].to_i } }
+          it { is_expected.to eq not_update["roles_abilities_attributes"].map {|i| i['ability_id'].to_i } }
         end
       end
 
       context "assigns the requested role as @role" do
         subject { assigns(:role) }
 
-        it { should eq only_view_role }
+        it { is_expected.to eq only_view_role }
       end
 
       context "redirects to the role" do
         subject { response }
 
-        it { should redirect_to only_view_role }
+        it { is_expected.to redirect_to only_view_role }
       end
     end
   end
@@ -260,13 +260,13 @@ shared_examples "Role updateができる" do
     context "assigns the role as @role" do
       subject { assigns(:role) }
 
-      it { should eq only_view_role }
+      it { is_expected.to eq only_view_role }
     end
 
     context "re-renders the 'edit' template" do
       subject { response }
 
-      it { should render_template("edit") }
+      it { is_expected.to render_template("edit") }
     end
   end
 end
@@ -286,13 +286,13 @@ shared_examples "Role destroyができる" do
   context "destroys the requested role" do
     subject { Role.count }
 
-    it { should eq 1 }
+    it { is_expected.to eq 1 }
   end
 
   context "redirects to the roles list" do
     subject { response }
 
-    it { should redirect_to roles_url }
+    it { is_expected.to redirect_to roles_url }
   end
 end
 

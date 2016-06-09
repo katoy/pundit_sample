@@ -5,19 +5,19 @@ describe UsersHelper do
     context '管理者' do
       include_context "管理者"
       subject { user_show?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限保持者' do
       include_context "User"
       subject { user_show?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限非保持者' do
       include_context "Role"
       subject { user_show?(user) }
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -25,19 +25,19 @@ describe UsersHelper do
     context '管理者' do
       include_context "管理者"
       subject { user_edit?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限保持者' do
       include_context "User"
       subject { user_edit?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限非保持者' do
       include_context "Role"
       subject { user_edit?(user) }
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -45,19 +45,19 @@ describe UsersHelper do
     context '管理者' do
       include_context "管理者"
       subject { user_destroy?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限保持者' do
       include_context "User"
       subject { user_destroy?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限非保持者' do
       include_context "Role"
       subject { user_destroy?(user) }
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
   end
 
@@ -65,19 +65,19 @@ describe UsersHelper do
     context '管理者' do
       include_context "管理者"
       subject { user_create?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限保持者' do
       include_context "User"
       subject { user_create?(user) }
-      it { should be_true }
+      it { is_expected.to be_truthy }
     end
 
     context '権限非保持者' do
       include_context "Role"
       subject { user_create?(user) }
-      it { should be_false }
+      it { is_expected.to be_falsey }
     end
   end
 end

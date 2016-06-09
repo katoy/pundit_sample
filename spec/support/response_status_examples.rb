@@ -1,5 +1,5 @@
 shared_examples 'http code' do |code|
   it "returns http #{code}" do
-    response.response_code.should == code
+    expect(response.response_code).to eq(code)
   end
 end

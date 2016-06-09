@@ -5,7 +5,7 @@ shared_examples "User indexができる" do
   before { get :index }
   subject { assigns(:users) }
 
-  it { should include user }
+  it { is_expected.to include user }
   it_behaves_like 'http code', 200
 end
 
@@ -22,7 +22,7 @@ shared_examples "User showができる" do
   before { get :show, id: user.to_param }
   subject { assigns(:user) }
 
-  it { should eq user }
+  it { is_expected.to eq user }
   it_behaves_like 'http code', 200
 end
 
@@ -39,7 +39,7 @@ shared_examples "User newができる" do
   before { get :new }
   subject { assigns(:user) }
 
-  it { should be_a_new(User) }
+  it { is_expected.to be_a_new(User) }
   it_behaves_like 'http code', 200
 end
 
@@ -56,7 +56,7 @@ shared_examples "User editができる" do
   before { get :edit, id: user.to_param }
   subject { assigns(:user) }
 
-  it { should eq user }
+  it { is_expected.to eq user }
   it_behaves_like 'http code', 200
 end
 
@@ -78,26 +78,26 @@ shared_examples "User createができる" do
     context "creates a new User" do
       subject { User.count }
 
-      it { should eq 3 }
+      it { is_expected.to eq 3 }
     end
 
     context "assigns a newly created user as @user" do
       subject { assigns(:user) }
 
-      it { should be_a User }
-      it { should be_persisted }
+      it { is_expected.to be_a User }
+      it { is_expected.to be_persisted }
     end
 
     context "redirects to the created user" do
       subject { response }
 
-      it { should redirect_to User.last }
+      it { is_expected.to redirect_to User.last }
     end
   end
 
   context "with invalid params" do
     before do
-      User.any_instance.stub(:save).and_return(false)
+      allow_any_instance_of(User).to receive(:save).and_return(false)
       post :create, { user: { "name" => "invalid value" } }
     end
 
@@ -106,13 +106,13 @@ shared_examples "User createができる" do
     context "assigns a newly created but unsaved user as @user" do
       subject { assigns(:user) }
 
-      it { should be_a_new User }
+      it { is_expected.to be_a_new User }
     end
 
     context "re-renders the 'new' template" do
       subject { response }
 
-      it { should render_template("new") }
+      it { is_expected.to render_template("new") }
     end
   end
 end
@@ -138,25 +138,25 @@ shared_examples "User updateができる" do
     context "updates the requested user" do
       subject { user.name }
 
-      it { should eq update_attributes["name"] }
+      it { is_expected.to eq update_attributes["name"] }
     end
 
     context "assigns the requested user as @user" do
       subject { assigns(:user) }
 
-      it { should eq user }
+      it { is_expected.to eq user }
     end
 
     context "redirects to the user" do
       subject { response }
 
-      it { should redirect_to user }
+      it { is_expected.to redirect_to user }
     end
   end
 
   context "with invalid params" do
     before do
-      User.any_instance.stub(:save).and_return(false)
+      allow_any_instance_of(User).to receive(:save).and_return(false)
       put :update, { id: user.to_param, user: { "name" => "invalid value" } }
     end
 
@@ -165,13 +165,13 @@ shared_examples "User updateができる" do
     context "assigns the user as @user" do
       subject { assigns(:user) }
 
-      it { should eq user }
+      it { is_expected.to eq user }
     end
 
     context "re-renders the 'edit' template" do
       subject { response }
 
-      it { should render_template("edit") }
+      it { is_expected.to render_template("edit") }
     end
   end
 end
@@ -191,13 +191,13 @@ shared_examples "User destroyができる" do
   context "destroys the requested user" do
     subject { User.count }
 
-    it { should eq 1 }
+    it { is_expected.to eq 1 }
   end
 
   context "redirects to the users list" do
     subject { response }
 
-    it { should redirect_to users_url }
+    it { is_expected.to redirect_to users_url }
   end
 end
 

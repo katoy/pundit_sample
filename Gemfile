@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby "2.1.2"
+ruby '2.2.3'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails'
@@ -67,7 +67,7 @@ group :test, :development do
 
   gem 'better_errors'
   gem 'binding_of_caller'
-  gem "annotate", github: "ctran/annotate_models"
+  gem 'annotate', github: 'ctran/annotate_models'
   gem 'bullet'
 end
 

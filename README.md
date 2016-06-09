@@ -1,9 +1,9 @@
-[![Build Status](https://travis-ci.org/onigra/pundit_sample.svg?branch=master)](https://travis-ci.org/onigra/pundit_sample) [![Coverage Status](https://coveralls.io/repos/onigra/pundit_sample/badge.png?branch=master)](https://coveralls.io/r/onigra/pundit_sample?branch=master) [![Code Climate](https://codeclimate.com/github/onigra/pundit_sample.png)](https://codeclimate.com/github/onigra/pundit_sample)
+[![Build Status](https://travis-ci.org/katoy/pundit_sample.svg?branch=master)](https://travis-ci.org/katoy/pundit_sample) [![Coverage Status](https://coveralls.io/repos/katoy/pundit_sample/badge.png?branch=master)](https://coveralls.io/r/katoy/pundit_sample?branch=master) [![Code Climate](https://codeclimate.com/github/katoy/pundit_sample.png)](https://codeclimate.com/github/katoy/pundit_sample)
 
 # 環境
 
-* Ruby 2.1.2
-* Rails 4.1.1
+* Ruby 2.1.2 -> 2.2.4
+* Rails 4.1.1 -> 4.2.6
 
 ## Requirements
 
@@ -32,4 +32,3 @@ $ bundle exec rails s
 |user@example.com|useruser|Userのindex, show, create, update, destroyが可能。 <br> Role(権限)に対しての操作は一切行えない|
 |role@example.com|rolerole|Role(権限)のindex, show, create, update, destroyが可能。 <br> Userに対しての操作は一切行えない|
 |view@example.com|viewview|User、Roleの閲覧(index, show)のみ可能。 <br> 新規作成、更新、削除は行えない|
-

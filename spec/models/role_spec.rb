@@ -51,15 +51,15 @@ describe Role do
   let(:not_include_roles_abilities_attributes) { { "name" => "fuga" } }
 
   describe 'relationship' do
-    it { should have_one(:user) }
-    it { should have_many(:roles_abilities).dependent(:destroy) }
-    it { should have_many(:abilities).through(:roles_abilities) }
-    it { should accept_nested_attributes_for(:roles_abilities).update_only(true) }
+    it { is_expected.to have_one(:user) }
+    it { is_expected.to have_many(:roles_abilities).dependent(:destroy) }
+    it { is_expected.to have_many(:abilities).through(:roles_abilities) }
+    it { is_expected.to accept_nested_attributes_for(:roles_abilities).update_only(true) }
   end
 
   describe "#ability" do
     subject { user_role.ability }
-    it { should include "user" }
+    it { is_expected.to include "user" }
   end
 
   describe "#get_destroy_id", "roleに紐づくability_idの更新時に、削除するability_idを取得する" do
@@ -119,8 +119,15 @@ describe Role do
         user_role.push_current_roles_abilities_id(all_update)["roles_abilities_attributes"]
       end
 
-      its([0]) { should_not include "id" }
-      its([1]) { should_not include "id" }
+      describe '[0]' do
+        subject { super()[0] }
+        it { is_expected.not_to include "id" }
+      end
+
+      describe '[1]' do
+        subject { super()[1] }
+        it { is_expected.not_to include "id" }
+      end
     end
 
     context "一部更新 roles_abilities.idが含まれている要素がある" do
@@ -128,11 +135,30 @@ describe Role do
         user_role.push_current_roles_abilities_id(some_update)["roles_abilities_attributes"]
       end
 
-      its([0]) { should include "id" }
-      its([1]) { should include "id" }
-      its([2]) { should include "id" }
-      its([3]) { should include "id" }
-      its([4]) { should_not include "id" }
+      describe '[0]' do
+        subject { super()[0] }
+        it { is_expected.to include "id" }
+      end
+
+      describe '[1]' do
+        subject { super()[1] }
+        it { is_expected.to include "id" }
+      end
+
+      describe '[2]' do
+        subject { super()[2] }
+        it { is_expected.to include "id" }
+      end
+
+      describe '[3]' do
+        subject { super()[3] }
+        it { is_expected.to include "id" }
+      end
+
+      describe '[4]' do
+        subject { super()[4] }
+        it { is_expected.not_to include "id" }
+      end
     end
 
     context "更新なし 全ての要素にroles_abilities.idが含まれている" do
@@ -140,8 +166,15 @@ describe Role do
         user_role.push_current_roles_abilities_id(not_update)["roles_abilities_attributes"]
       end
 
-      its([0]) { should include "id" }
-      its([1]) { should include "id" }
+      describe '[0]' do
+        subject { super()[0] }
+        it { is_expected.to include "id" }
+      end
+
+      describe '[1]' do
+        subject { super()[1] }
+        it { is_expected.to include "id" }
+      end
     end
   end
 
@@ -179,11 +212,11 @@ describe Role do
       end
 
       it "物理削除したability_idが存在しない1" do
-        expect(Role.exists? old_ability_id[0]).to be_false
+        expect(Role.exists? old_ability_id[0]).to be_falsey
       end
 
       it "物理削除したability_idが存在しない2" do
-        expect(Role.exists? old_ability_id[1]).to be_false
+        expect(Role.exists? old_ability_id[1]).to be_falsey
       end
     end
 
@@ -213,22 +246,22 @@ describe Role do
       end
 
       it "物理削除したability_idが存在しない" do
-        expect(Role.exists? old_ability_id[0]).to be_false
+        expect(Role.exists? old_ability_id[0]).to be_falsey
       end
     end
 
     context "ロールバック" do
       context "古いレコードの削除が失敗した場合" do
         it "return false" do
-          Role.any_instance.stub(:destroy_old_abilities).and_raise
-          expect(user_role.destroy_and_update all_update).to be_false
+          allow_any_instance_of(Role).to receive(:destroy_old_abilities).and_raise
+          expect(user_role.destroy_and_update all_update).to be_falsey
         end
       end
 
       context "新しいレコードの作成が失敗した場合" do
         it "return false" do
-          Role.any_instance.stub(:save).and_return(false)
-          expect(user_role.destroy_and_update all_update).to be_false
+          allow_any_instance_of(Role).to receive(:save).and_return(false)
+          expect(user_role.destroy_and_update all_update).to be_falsey
         end
       end
 
@@ -236,7 +269,7 @@ describe Role do
         let(:attrs) { { "name" => "fuga" } }
 
         it "return false" do
-          expect(user_role.destroy_and_update attrs).to be_false
+          expect(user_role.destroy_and_update attrs).to be_falsey
         end
       end
 
@@ -244,7 +277,7 @@ describe Role do
         let(:attrs) { { "name" => "fuga", "roles_abilities_attributes" => [] } }
 
         it "return false" do
-          expect(user_role.destroy_and_update attrs).to be_false
+          expect(user_role.destroy_and_update attrs).to be_falsey
         end
       end
     end
