@@ -1,5 +1,4 @@
 FactoryGirl.define do
-
   # admin
   factory :admin_ability, class: Ability do
     domain 'admin'

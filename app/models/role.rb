@@ -1,22 +1,20 @@
 class Role < ActiveRecord::Base
   has_one :user
-  has_many :roles_abilities, :dependent => :destroy
+  has_many :roles_abilities, dependent: :destroy
   has_many :abilities, through: :roles_abilities
-  accepts_nested_attributes_for :roles_abilities, :update_only => true
+  accepts_nested_attributes_for :roles_abilities, update_only: true
 
-  validates_presence_of :name
+  validates :name, presence: true
 
   #
   # role新規作成時にabilityのチェックが0件だったらエラー
   #
-  validates_each :ability do |record, attr, value|
-    if record.roles_abilities.blank?
-      record.errors.add attr, '権限は1件以上選択してください'
-    end
+  validates_each :ability do |record, attr, _value|
+    record.errors.add attr, '権限は1件以上選択してください' if record.roles_abilities.blank?
   end
 
   def ability
-    Ability.ability_hash_with_id self.roles_abilities.map(&:ability_id)
+    Ability.ability_hash_with_id roles_abilities.map(&:ability_id)
   end
 
   def ability_id_to_a
@@ -36,7 +34,7 @@ class Role < ActiveRecord::Base
   def destroy_and_update(attrs)
     ActiveRecord::Base.transaction do
       destroy_old_abilities(attrs)
-      raise ActiveRecord::Rollback unless update(push_current_roles_abilities_id attrs)
+      fail ActiveRecord::Rollback unless update(push_current_roles_abilities_id attrs)
       reload
       true
     end
@@ -55,9 +53,9 @@ class Role < ActiveRecord::Base
   # そのため、updateを呼ぶ際にroles_abilities.idを追加する。
   #
   def push_current_roles_abilities_id(attrs)
-    attrs["roles_abilities_attributes"].each do |item|
-      if index_by_ability_id.include? item["ability_id"].to_i
-        item["id"] = index_by_ability_id[item["ability_id"].to_i].id.to_s
+    attrs['roles_abilities_attributes'].each do |item|
+      if index_by_ability_id.include? item['ability_id'].to_i
+        item['id'] = index_by_ability_id[item['ability_id'].to_i].id.to_s
       end
     end
 
@@ -88,9 +86,7 @@ class Role < ActiveRecord::Base
     ability_id_to_a - attrs_to_array(attrs)
   end
 
-  scope :except_admin, -> {
-    select(:id, :name).joins(:roles_abilities).joins(:abilities).where.not(abilities: { domain: "admin" }).uniq
-  }
+  scope :except_admin, -> { select(:id, :name).joins(:roles_abilities).joins(:abilities).where.not(abilities: { domain: 'admin' }).uniq }
 
   private
 
@@ -98,14 +94,14 @@ class Role < ActiveRecord::Base
   # パラメータで渡されたability_idを配列で返す
   #
   def attrs_to_array(attrs)
-    raise ArgumentError if attrs_is_invalid?(attrs)
-    attrs["roles_abilities_attributes"].map{ |item| item["ability_id"].to_i }
+    fail ArgumentError if attrs_is_invalid?(attrs)
+    attrs['roles_abilities_attributes'].map { |item| item['ability_id'].to_i }
   rescue ArgumentError
-    errors.add "Ability", "権限は1件以上選択してください"
+    errors.add 'Ability', '権限は1件以上選択してください'
     raise ActiveRecord::Rollback
   end
 
   def attrs_is_invalid?(attrs)
-    !attrs.include?("roles_abilities_attributes") or attrs["roles_abilities_attributes"].blank?
+    !attrs.include?('roles_abilities_attributes') || attrs['roles_abilities_attributes'].blank?
   end
 end

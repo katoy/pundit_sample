@@ -8,7 +8,7 @@ FactoryGirl.define do
 
     to_create do |instance|
       instance.save validate: false
-    end 
+    end
   end
 
   factory :user_role, class: Role do
@@ -24,7 +24,7 @@ FactoryGirl.define do
 
     to_create do |instance|
       instance.save validate: false
-    end 
+    end
   end
 
   factory :role_role, class: Role do
@@ -40,7 +40,7 @@ FactoryGirl.define do
 
     to_create do |instance|
       instance.save validate: false
-    end 
+    end
   end
 
   factory :only_view_role, class: Role do
@@ -55,6 +55,6 @@ FactoryGirl.define do
 
     to_create do |instance|
       instance.save validate: false
-    end 
+    end
   end
 end

@@ -1,4 +1,5 @@
 [![Build Status](https://travis-ci.org/katoy/pundit_sample.svg?branch=master)](https://travis-ci.org/katoy/pundit_sample) [![Coverage Status](https://coveralls.io/repos/katoy/pundit_sample/badge.png?branch=master)](https://coveralls.io/r/katoy/pundit_sample?branch=master) [![Code Climate](https://codeclimate.com/github/katoy/pundit_sample.png)](https://codeclimate.com/github/katoy/pundit_sample)
+[![Dependency Status](https://gemnasium.com/badges/github.com/katoy/pundit_sample.svg)](https://gemnasium.com/github.com/katoy/pundit_sample)
 
 # 環境
 

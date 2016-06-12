@@ -11,7 +11,7 @@ class ApplicationPolicy
   end
 
   def show?
-    scope.where(:id => record.id).exists?
+    scope.where(id: record.id).exists?
   end
 
   def create?
@@ -39,7 +39,6 @@ class ApplicationPolicy
   end
 
   def can?(ability)
-    (user.ability.include?(record.class.to_s.underscore) && user.ability[record.class.to_s.underscore].include?(ability))
+    user.ability.include?(record.class.to_s.underscore) && user.ability[record.class.to_s.underscore].include?(ability)
   end
 end
-

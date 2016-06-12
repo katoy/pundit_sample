@@ -10,7 +10,7 @@ describe User do
   end
 
   describe '#ability' do
-    context "administrator" do
+    context 'administrator' do
       subject { administrator.ability }
 
       it { is_expected.to include 'admin' }
@@ -21,7 +21,7 @@ describe User do
       end
     end
 
-    context "has_user_authority" do
+    context 'has_user_authority' do
       subject { has_user_authority.ability }
 
       it { is_expected.to include 'user' }
@@ -32,7 +32,7 @@ describe User do
       end
     end
 
-    context "has_role_authority" do
+    context 'has_role_authority' do
       subject { has_role_authority.ability }
 
       it { is_expected.to include 'role' }

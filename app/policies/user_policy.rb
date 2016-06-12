@@ -10,15 +10,15 @@ class UserPolicy < ApplicationPolicy
   end
 
   def index?
-    user.admin? or can? "index"
+    user.admin? || can?('index')
   end
 
   def show?
-    user.admin? or can? "show"
+    user.admin? || can?('show')
   end
 
   def create?
-    user.admin? or can? "create"
+    user.admin? || can?('create')
   end
 
   def new?
@@ -26,7 +26,7 @@ class UserPolicy < ApplicationPolicy
   end
 
   def update?
-    user.admin? or can? "update"
+    user.admin? || can?('update')
   end
 
   def edit?
@@ -34,6 +34,6 @@ class UserPolicy < ApplicationPolicy
   end
 
   def destroy?
-    user.admin? or can? "destroy"
+    user.admin? || can?('destroy')
   end
 end

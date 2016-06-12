@@ -7,7 +7,7 @@ PunditSample::Application.routes.draw do
     get 'logout' => 'devise/sessions#destroy', as: :destroy_user_session
   end
 
-  root to: "home#index"
+  root to: 'home#index'
   resources :roles
   resources :users
   get '*not_found' => 'application#render_404'

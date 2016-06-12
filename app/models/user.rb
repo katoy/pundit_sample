@@ -3,18 +3,17 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   belongs_to :role
 
-  validates_presence_of :name, :email
-  validates_confirmation_of :password
+  validates :name,  presence: true
+  validates :email, presence: true
+  validates :password, confirmation: true
 
   def ability
-    Ability.ability_hash self.role.roles_abilities.map(&:ability_id)
+    Ability.ability_hash role.roles_abilities.map(&:ability_id)
   end
 
   def admin?
     ability.include? 'admin'
   end
 
-  scope :except_admin, -> {
-    joins(:role).where.not(roles: { name: "administrator"} )
-  }
+  scope :except_admin, -> { joins(:role).where.not(roles: { name: 'administrator' }) }
 end
