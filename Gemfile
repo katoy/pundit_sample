@@ -69,6 +69,8 @@ group :test, :development do
   gem 'binding_of_caller'
   gem 'annotate', github: 'ctran/annotate_models'
   gem 'bullet'
+
+  gem 'metric_fu'
 end
 
 gem 'rails_12factor', group: :production

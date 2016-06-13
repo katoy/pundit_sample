@@ -1,7 +1,15 @@
 ENV['RAILS_ENV'] ||= 'test'
 
-require 'coveralls'
-Coveralls.wear!('rails')
+require 'simplecov'
+SimpleCov.start 'rails'
+
+if ENV['TRAVIS']
+  require 'coveralls'
+  Coveralls.wear!('rails')
+else
+  require 'simplecov'
+  SimpleCov.start 'rails'
+end
 
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
